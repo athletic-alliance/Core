@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Domain.Entities.Common;
+using AthleticAlliance.Domain.Enums;
 
 namespace AthleticAlliance.Domain.Entities.Training
 {
@@ -7,5 +8,7 @@ namespace AthleticAlliance.Domain.Entities.Training
         public int Id { get; set; }
 
         public string? Name { get; set; }
+        
+        public ExerciseType Type { get; set; }
     }
 }
