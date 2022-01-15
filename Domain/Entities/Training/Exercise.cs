@@ -1,6 +1,8 @@
-﻿namespace AthleticAlliance.Domain.Entities.Training
+﻿using AthleticAlliance.Domain.Entities.Common;
+
+namespace AthleticAlliance.Domain.Entities.Training
 {
-    public class Exercise
+    public class Exercise : BaseEntity
     {
         public int Id { get; set; }
 
