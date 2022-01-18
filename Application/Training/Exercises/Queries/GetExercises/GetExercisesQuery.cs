@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AthleticAlliance.Application.Training.Exercises.Queries.GetExercises
 {
-    public class GetExercisesQuery : IRequest<ExercisesVm>
+    public class GetExercisesQuery : IRequest<List<ExerciseDto>>
     {
     }
 
-    public class GetExercisesQueryHandler : IRequestHandler<GetExercisesQuery, ExercisesVm>
+    public class GetExercisesQueryHandler : IRequestHandler<GetExercisesQuery, List<ExerciseDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -21,15 +21,12 @@ namespace AthleticAlliance.Application.Training.Exercises.Queries.GetExercises
             _mapper = mapper;
         }
 
-        public async Task<ExercisesVm> Handle(GetExercisesQuery request, CancellationToken cancellationToken)
+        public async Task<List<ExerciseDto>> Handle(GetExercisesQuery request, CancellationToken cancellationToken)
         {
-            return new ExercisesVm
-            {
-                Exercises = await _context.Exercises
+            return await _context.Exercises
                 .AsNoTracking()
                 .ProjectTo<ExerciseDto>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken),
-            };
+                .ToListAsync(cancellationToken);
         }
     }
 }
