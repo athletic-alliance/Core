@@ -25,6 +25,10 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkouts
         {
             return await _context
                 .Workouts
+                .Include(w => w.Exercises)
+                .ThenInclude(e => e.Exercise)
+                .Include(w => w.Exercises)
+                .ThenInclude(e => e.Details)
                 .AsNoTracking()
                 .ProjectTo<WorkoutDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();

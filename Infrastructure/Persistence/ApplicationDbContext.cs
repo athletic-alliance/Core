@@ -24,8 +24,8 @@ namespace AthleticAlliance.Infrastructure.Persistence
             base.OnModelCreating(builder);
 
             builder.Entity<Workout>().HasMany(w => w.Exercises).WithOne(e => e.Workout);
-            builder.Entity<Exercise>().HasMany(w => w.WorkoutExercise).WithOne(e => e.Exercise);
-            builder.Entity<WorkoutExercise>().HasOne(w => w.Details).WithMany(d => d.Exercise);
+            builder.Entity<WorkoutExercise>().HasOne(w => w.Details);
+            builder.Entity<WorkoutExercise>().HasOne(w => w.Exercise);
         }
 
         public override int SaveChanges()

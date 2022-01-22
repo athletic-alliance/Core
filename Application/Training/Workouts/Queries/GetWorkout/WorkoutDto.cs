@@ -8,6 +8,8 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkouts
     {
         public string? Name { get; set; }
 
+        public ICollection<WorkoutExercise>? Exercises {get;set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Workout, WorkoutDto>();

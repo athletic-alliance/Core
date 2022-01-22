@@ -3,6 +3,7 @@ using System;
 using AthleticAlliance.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220122163243_Fixed relation of exercise detail")]
+    partial class Fixedrelationofexercisedetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -354,7 +356,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.WorkoutExercise", b =>
                 {
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.WorkoutExerciseDetails", "Details")
-                        .WithMany()
+                        .WithMany("Exercise")
                         .HasForeignKey("DetailsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -432,6 +434,11 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Workout", b =>
                 {
                     b.Navigation("Exercises");
+                });
+
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.WorkoutExerciseDetails", b =>
+                {
+                    b.Navigation("Exercise");
                 });
 #pragma warning restore 612, 618
         }
