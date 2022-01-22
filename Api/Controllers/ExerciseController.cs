@@ -1,6 +1,5 @@
 using AthleticAlliance.Application.Training.Exercises.Commands.CreateExercise;
 using AthleticAlliance.Application.Training.Exercises.Queries.GetExercises;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

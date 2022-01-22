@@ -8,7 +8,6 @@ namespace AthleticAlliance.Domain.Entities.Training
 
         public string? Name { get; set; }
 
-
         public ICollection<WorkoutExercise> Exercises { get; set; }
     }
 }

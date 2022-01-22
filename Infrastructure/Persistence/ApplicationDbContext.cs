@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
+using AthleticAlliance.Domain.Entities.Common;
 using AthleticAlliance.Domain.Entities.Training;
 using AthleticAlliance.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -24,7 +25,36 @@ namespace AthleticAlliance.Infrastructure.Persistence
 
             builder.Entity<Workout>().HasMany(w => w.Exercises).WithOne(e => e.Workout);
             builder.Entity<Exercise>().HasMany(w => w.WorkoutExercise).WithOne(e => e.Exercise);
-            builder.Entity<WorkoutExercise>().HasMany(w => w.WorkoutExerciseDetails).WithOne(e => e.Exercise);
+            builder.Entity<WorkoutExercise>().HasOne(w => w.Details).WithMany(d => d.Exercise);
+        }
+
+        public override int SaveChanges()
+        {
+            AddTimestamps();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            AddTimestamps();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void AddTimestamps()
+        {
+            var entities = ChangeTracker.Entries()
+                .Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+
+            foreach (var entity in entities)
+            {
+                var now = DateTime.UtcNow; // current datetime
+
+                if (entity.State == EntityState.Added)
+                {
+                    ((BaseEntity)entity.Entity).Created = now;
+                }
+                ((BaseEntity)entity.Entity).LastModified = now;
+            }
         }
     }
 }

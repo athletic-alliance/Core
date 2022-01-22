@@ -1,6 +1,5 @@
 ﻿using AthleticAlliance.Domain.Entities.Common;
 using AthleticAlliance.Domain.Enums;
-using System.Text.Json.Serialization;
 
 namespace AthleticAlliance.Domain.Entities.Training
 {

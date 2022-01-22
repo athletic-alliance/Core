@@ -12,6 +12,6 @@ namespace AthleticAlliance.Domain.Entities.Training
 
         public int? Distance { get; set; }
 
-        public WorkoutExercise Exercise { get; set; }
+        public ICollection<WorkoutExercise> Exercise { get; set; }
     }
 }

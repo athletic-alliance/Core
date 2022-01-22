@@ -10,7 +10,8 @@ namespace AthleticAlliance.Domain.Entities.Training
         public Workout Workout { get; set; }
 
         public Exercise Exercise { get; set; }
+        public int ExerciseId { get; set; }
 
-        public ICollection<WorkoutExerciseDetails> WorkoutExerciseDetails { get; set; }
+        public WorkoutExerciseDetails Details { get; set; }
     }
 }
