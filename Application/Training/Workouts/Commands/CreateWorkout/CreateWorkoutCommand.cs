@@ -32,6 +32,8 @@ namespace AthleticAlliance.Application.Training.Workouts.Commands.CreateWorkout
                 details.Repetitions = workoutExerciseDto.Details.Repetitions;
 
                 var workoutExercise = new WorkoutExercise();
+                workoutExercise.Round = workoutExerciseDto.Round;
+                workoutExercise.Order = workoutExerciseDto.Order;
                 workoutExercise.ExerciseId = workoutExerciseDto.ExerciseId;
                 workoutExercise.Details = details;
                 workoutExercises.Add(workoutExercise);

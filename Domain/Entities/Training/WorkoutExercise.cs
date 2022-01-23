@@ -5,9 +5,9 @@ namespace AthleticAlliance.Domain.Entities.Training
     public class WorkoutExercise : BaseEntity
     {
         public int Id { get; set; }
-
+        public int Round { get; set; }
+        public int Order { get; set; }
         public Workout? Workout { get; set; }
-
         public Exercise? Exercise { get; set; }
         public int ExerciseId { get; set; }
 

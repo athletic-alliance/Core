@@ -95,7 +95,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("DetailsId")
+                    b.Property<int?>("DetailsId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ExerciseId")
@@ -107,7 +107,13 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("WorkoutId")
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Round")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WorkoutId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -355,9 +361,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.WorkoutExerciseDetails", "Details")
                         .WithMany()
-                        .HasForeignKey("DetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DetailsId");
 
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.Exercise", "Exercise")
                         .WithMany()
@@ -367,9 +371,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.Workout", "Workout")
                         .WithMany("Exercises")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkoutId");
 
                     b.Navigation("Details");
 

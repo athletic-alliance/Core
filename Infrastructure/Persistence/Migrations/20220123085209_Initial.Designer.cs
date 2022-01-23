@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220122163243_Fixed relation of exercise detail")]
-    partial class Fixedrelationofexercisedetail
+    [Migration("20220123085209_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -97,7 +97,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("DetailsId")
+                    b.Property<int?>("DetailsId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ExerciseId")
@@ -109,7 +109,10 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("WorkoutId")
+                    b.Property<int>("Round")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WorkoutId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -356,10 +359,8 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.WorkoutExercise", b =>
                 {
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.WorkoutExerciseDetails", "Details")
-                        .WithMany("Exercise")
-                        .HasForeignKey("DetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("DetailsId");
 
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.Exercise", "Exercise")
                         .WithMany()
@@ -369,9 +370,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.Workout", "Workout")
                         .WithMany("Exercises")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkoutId");
 
                     b.Navigation("Details");
 
@@ -434,11 +433,6 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Workout", b =>
                 {
                     b.Navigation("Exercises");
-                });
-
-            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.WorkoutExerciseDetails", b =>
-                {
-                    b.Navigation("Exercise");
                 });
 #pragma warning restore 612, 618
         }
