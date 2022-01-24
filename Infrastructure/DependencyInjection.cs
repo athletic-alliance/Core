@@ -15,8 +15,7 @@ namespace AthleticAlliance.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(@"Host=localhost;Port=5432;Username=aaadmin;Password=aapassword;Database=athleticalliance"));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("postgres")));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
             
