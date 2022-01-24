@@ -1,9 +1,11 @@
 using AthleticAlliance.Application.Training.Exercises.Commands.CreateExercise;
 using AthleticAlliance.Application.Training.Exercises.Queries.GetExercises;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ExerciseController : ApiControllerBase
