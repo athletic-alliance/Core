@@ -18,6 +18,5 @@ namespace Api.Controllers
         public async Task<int> Post(CreateExerciseCommand command) {
             return await Mediator.Send(command);
         }
-
     }
 }
