@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Mappings;
+using AthleticAlliance.Application.Training.Exercises.Queries.GetExercises;
 using AthleticAlliance.Domain.Entities.Training;
 using AutoMapper;
 
@@ -10,6 +11,7 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
         public int ExerciseId { get; set; }
         public int Round { get; set; }
         public int Order { get; set; }
+        public ExerciseDto Exercise { get; set; }
 
         public void Mapping(Profile profile)
         {

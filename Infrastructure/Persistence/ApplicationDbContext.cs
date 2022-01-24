@@ -9,6 +9,8 @@ namespace AthleticAlliance.Infrastructure.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
+        public DbSet<Plan> Plans => Set<Plan>();
+        public DbSet<PlanWorkout> PlanWorkouts => Set<PlanWorkout>();
         public DbSet<Exercise> Exercises => Set<Exercise>();
         public DbSet<Workout> Workouts => Set<Workout>();
         public DbSet<WorkoutExercise> WorkoutExercises => Set<WorkoutExercise>();
@@ -23,6 +25,8 @@ namespace AthleticAlliance.Infrastructure.Persistence
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Plan>().HasMany(w => w.Workouts);
+            builder.Entity<PlanWorkout>().HasOne(pw => pw.Workout);
             builder.Entity<Workout>().HasMany(w => w.Exercises).WithOne(e => e.Workout);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Details);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Exercise);

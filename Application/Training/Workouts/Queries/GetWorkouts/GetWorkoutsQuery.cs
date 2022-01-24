@@ -25,8 +25,9 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkouts
         {
             return await _context
                 .Workouts
-                .OrderBy(w => w.Exercises.OrderBy(e => e.Round))
-                .ThenBy(w => w.Exercises.OrderBy(e => e.Order))
+                .Include(w => w.Exercises)
+                .ThenInclude(w => w.Exercise)
+                //.OrderBy(w => w.Exercises.OrderBy(e => e.Round))
                 .AsNoTracking()
                 .ProjectTo<WorkoutDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
