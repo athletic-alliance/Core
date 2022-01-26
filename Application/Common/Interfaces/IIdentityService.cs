@@ -1,4 +1,4 @@
-﻿using AthleticAlliance.Infrastructure.Identity;
+﻿using AthleticAlliance.Application.Identity;
 
 namespace AthleticAlliance.Application.Common.Interfaces
 {

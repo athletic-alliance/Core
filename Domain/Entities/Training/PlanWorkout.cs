@@ -8,6 +8,7 @@ namespace AthleticAlliance.Domain.Entities.Training
         public DateTime PlannedDate { get; set; }
 
         public Workout Workout { get; set; }
+
         public int WorkoutId { get; set; }
     }
 }

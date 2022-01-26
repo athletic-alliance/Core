@@ -1,5 +1,6 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
 using AthleticAlliance.Domain.Entities.Training;
+using AthleticAlliance.Domain.Enums;
 using MediatR;
 
 namespace AthleticAlliance.Application.Training.Workouts.Commands.CreateWorkout
@@ -7,7 +8,9 @@ namespace AthleticAlliance.Application.Training.Workouts.Commands.CreateWorkout
     public class CreateWorkoutCommand : IRequest<int>
     {
         public String Name { get; set; }
-
+        public WorkoutType Type { get; set; }
+        public int TimeLimit { get; set; }
+        public String? Description { get; set; }
         public List<WorkoutExerciseDto> Exercises { get; set; }
     }
 
@@ -24,7 +27,7 @@ namespace AthleticAlliance.Application.Training.Workouts.Commands.CreateWorkout
         {
             var workoutExercises = new List<WorkoutExercise>();
 
-            foreach(var workoutExerciseDto in request.Exercises)
+            foreach (var workoutExerciseDto in request.Exercises)
             {
                 var details = new WorkoutExerciseDetails();
                 details.Distance = workoutExerciseDto.Details.Distance;

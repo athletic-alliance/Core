@@ -1,7 +1,7 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
+using AthleticAlliance.Application.Identity;
 using AthleticAlliance.Domain.Entities.Common;
 using AthleticAlliance.Domain.Entities.Training;
-using AthleticAlliance.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

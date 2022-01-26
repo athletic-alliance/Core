@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
+using AthleticAlliance.Application.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace AthleticAlliance.Infrastructure.Identity

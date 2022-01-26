@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
+using AthleticAlliance.Application.Identity;
 using AthleticAlliance.Infrastructure.Identity;
 using AthleticAlliance.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
