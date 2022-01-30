@@ -1,5 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
-using AthleticAlliance.Application.Identity;
+using AthleticAlliance.Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
 
 namespace AthleticAlliance.Infrastructure.Identity
@@ -24,6 +24,16 @@ namespace AthleticAlliance.Infrastructure.Identity
             var identityResult = await _userManager.CreateAsync(user, password);
 
             return identityResult.Succeeded;
+        }
+
+        public Task<bool> PasswordValid(ApplicationUser user, string? password)
+        {
+            return _userManager.CheckPasswordAsync(user, password);
+        }
+
+        public Task<ApplicationUser> FindByEmail(string? email)
+        {
+            return _userManager.FindByEmailAsync(email);
         }
 
         public Task<ApplicationUser> FindByUserName(string username)

@@ -3,13 +3,13 @@ using MediatR;
 
 namespace AthleticAlliance.Application.Auth.Commands.Authenticate
 {
-    public class AuthenticationCommand : IRequest<string>
+    public class AuthenticationCommand : IRequest<AuthResponseDto>
     {
-        public string Username { get; set; }    
-        public string Password { get; set; }    
+        public string? Email { get; set; }    
+        public string? Password { get; set; }    
     }
 
-    public class AuthenticationCommandHandler : IRequestHandler<AuthenticationCommand, string>
+    public class AuthenticationCommandHandler : IRequestHandler<AuthenticationCommand, AuthResponseDto>
     {
         private readonly IIdentityService _identityService;
         private readonly ITokenService _tokenService;
@@ -20,13 +20,20 @@ namespace AthleticAlliance.Application.Auth.Commands.Authenticate
             _tokenService = tokenService;
         }
 
-        public async Task<string> Handle(AuthenticationCommand request, CancellationToken cancellationToken)
+        public async Task<AuthResponseDto> Handle(AuthenticationCommand request, CancellationToken cancellationToken)
         {
-            var user = await _identityService.FindByUserName(request.Username);
+            var user = await _identityService.FindByEmail(request.Email);
 
+            var passwordValid = await _identityService.PasswordValid(user, request.Password);
+
+            if (!passwordValid)
+            {
+                throw new UnauthorizedAccessException();
+            }
+            
             var token = _tokenService.BuildToken(user.UserName, "Admin");
 
-            return token;
+            return new AuthResponseDto(token, token); 
         }
     }
 }

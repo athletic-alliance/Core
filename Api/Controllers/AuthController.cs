@@ -8,7 +8,7 @@ namespace Api.Controllers
     public class AuthController : ApiControllerBase
     {
         [HttpPost]
-        public async Task<string> Post(AuthenticationCommand command)
+        public async Task<AuthResponseDto> Post(AuthenticationCommand command)
         {
             return await Mediator.Send(command);
         }

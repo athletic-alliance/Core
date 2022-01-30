@@ -7,9 +7,10 @@ namespace AthleticAlliance.Application.Training.Exercises.Queries.GetExercises
 {
     public class ExerciseDto: IMapFrom<Exercise>
     { 
+        public int Id { get; set; }
         public string? Name { get; set; }
 
-        public ExerciseType ExerciseType { get; set; }
+        public ExerciseType Type { get; set; }
 
         public void Mapping(Profile profile)
         {

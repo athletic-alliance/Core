@@ -1,5 +1,4 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
-using AthleticAlliance.Application.Identity;
 using AthleticAlliance.Infrastructure.Identity;
 using AthleticAlliance.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AthleticAlliance.Domain.Entities.User;
 
 namespace AthleticAlliance.Infrastructure
 {
