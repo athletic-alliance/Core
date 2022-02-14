@@ -1,11 +1,10 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
-using AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkouts
+namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
 {
     public class GetWorkoutQuery : IRequest<WorkoutDto>
     {
@@ -16,7 +15,6 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkouts
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-
         public GetWorkoutQueryCommandHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
