@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
+using AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;

@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Training.Workouts.Commands.CreateWorkout;
+using AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout;
 using AthleticAlliance.Application.Training.Workouts.Queries.GetWorkouts;
 using Microsoft.AspNetCore.Mvc;
 
