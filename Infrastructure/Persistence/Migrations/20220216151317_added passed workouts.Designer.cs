@@ -3,6 +3,7 @@ using System;
 using AthleticAlliance.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220216151317_added passed workouts")]
+    partial class addedpassedworkouts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.ToTable("Exercises");
                 });
 
-            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.PassedWorkout", b =>
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.PassedWorkouts", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,15 +75,6 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("TotalReps")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TotalRounds")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TotalTime")
-                        .HasColumnType("integer");
-
                     b.Property<int>("WorkoutId")
                         .HasColumnType("integer");
 
@@ -89,7 +82,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("PassedWorkout");
+                    b.ToTable("PassedWorkouts");
                 });
 
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Plan", b =>
@@ -483,7 +476,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.PassedWorkout", b =>
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.PassedWorkouts", b =>
                 {
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.Workout", "Workout")
                         .WithMany("PassedWorkouts")
