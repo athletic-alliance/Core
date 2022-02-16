@@ -45,6 +45,9 @@ namespace AthleticAlliance.Application.Training.Workouts.Commands.CreateWorkout
             var entity = new Workout
             {
                 Name = request.Name,
+                Description = request.Description,
+                TimeLimit = request.TimeLimit,
+                Type = request.Type,
                 Exercises = workoutExercises
             };
 

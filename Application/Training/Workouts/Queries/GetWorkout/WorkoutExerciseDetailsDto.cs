@@ -4,7 +4,7 @@ using AutoMapper;
 
 namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
 {
-    public class WorkoutExerciseDetailsDto : IMapFrom<WorkoutExerciseDetails>
+    public class ViewWorkoutExerciseDetailsDto : IMapFrom<WorkoutExerciseDetails>
     {
         public int Id { get; set; }
 
@@ -16,7 +16,7 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<WorkoutExerciseDetails, WorkoutExerciseDetailsDto>();
+            profile.CreateMap<WorkoutExerciseDetails, ViewWorkoutExerciseDetailsDto>();
         }
     }
 }

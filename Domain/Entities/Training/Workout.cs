@@ -13,8 +13,10 @@ namespace AthleticAlliance.Domain.Entities.Training
 
         public int TimeLimit { get; set; }
 
-        public String? Description { get; set; }
+        public string? Description { get; set; }
 
         public ICollection<WorkoutExercise> Exercises { get; set; }
+        
+        public ICollection<PassedWorkouts> PassedWorkouts { get; set; }
     }
 }

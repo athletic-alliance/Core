@@ -13,7 +13,7 @@ public class WorkoutDto : IMapFrom<Workout>
     public WorkoutType Type { get; set; }
 
     public int TimeLimit { get; set; }
-    public String? Description { get; set; } 
+    public string? Description { get; set; } 
 
     public ICollection<GetWorkoutExerciseDto>? Exercises {get;set; }
 

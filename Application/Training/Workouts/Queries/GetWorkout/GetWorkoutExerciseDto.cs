@@ -12,6 +12,7 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
         public int Round { get; set; }
         public int Order { get; set; }
         public ExerciseDto Exercise { get; set; }
+        public ViewWorkoutExerciseDetailsDto Details { get; set; }
 
         public void Mapping(Profile profile)
         {

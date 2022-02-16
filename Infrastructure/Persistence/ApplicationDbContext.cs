@@ -28,6 +28,7 @@ namespace AthleticAlliance.Infrastructure.Persistence
             builder.Entity<Plan>().HasMany(w => w.Workouts);
             builder.Entity<PlanWorkout>().HasOne(pw => pw.Workout);
             builder.Entity<Workout>().HasMany(w => w.Exercises).WithOne(e => e.Workout);
+            builder.Entity<Workout>().HasMany(w => w.PassedWorkouts).WithOne(pw => pw.Workout);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Details);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Exercise);
         }
