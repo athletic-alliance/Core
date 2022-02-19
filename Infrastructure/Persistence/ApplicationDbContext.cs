@@ -31,6 +31,10 @@ namespace AthleticAlliance.Infrastructure.Persistence
             builder.Entity<Workout>().HasMany(w => w.PassedWorkouts).WithOne(pw => pw.Workout);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Details);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Exercise);
+            builder.Entity<ApplicationUser>()
+                .HasOne(a => a.Profile)
+                .WithOne(b => b.User)
+                .HasForeignKey<UserProfile>(c => c.UserId);
         }
 
         public override int SaveChanges()
