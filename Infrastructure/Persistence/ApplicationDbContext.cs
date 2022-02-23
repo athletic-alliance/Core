@@ -2,12 +2,15 @@
 using AthleticAlliance.Domain.Entities.Common;
 using AthleticAlliance.Domain.Entities.Training;
 using AthleticAlliance.Domain.Entities.User;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AthleticAlliance.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>,
+        IApplicationDbContext
     {
         public DbSet<Plan> Plans => Set<Plan>();
         public DbSet<PlanTrainingDay> PlanTrainingDays => Set<PlanTrainingDay>();
@@ -18,21 +21,22 @@ namespace AthleticAlliance.Infrastructure.Persistence
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>().HasOne(a => a.Plan).WithOne(b => b.User).HasForeignKey<Plan>(c => c.UserId);
+            builder.Entity<ApplicationUser>().HasOne(a => a.Plan).WithOne(b => b.User)
+                .HasForeignKey<Plan>(c => c.UserId);
             builder.Entity<Plan>().HasMany(w => w.TrainingDays);
             builder.Entity<PlanTrainingDay>().HasOne(pw => pw.Workout);
             builder.Entity<Workout>().HasMany(w => w.Exercises).WithOne(e => e.Workout);
             builder.Entity<Workout>().HasMany(w => w.PassedWorkouts).WithOne(pw => pw.Workout);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Details);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Exercise);
-            builder.Entity<ApplicationUser>().HasOne(a => a.Profile).WithOne(b => b.User).HasForeignKey<UserProfile>(c => c.UserId);
+            builder.Entity<ApplicationUser>().HasOne(a => a.Profile).WithOne(b => b.User)
+                .HasForeignKey<UserProfile>(c => c.UserId);
         }
 
         public override int SaveChanges()
@@ -50,7 +54,8 @@ namespace AthleticAlliance.Infrastructure.Persistence
         private void AddTimestamps()
         {
             var entities = ChangeTracker.Entries()
-                .Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                .Where(x => x.Entity is BaseEntity &&
+                            (x.State == EntityState.Added || x.State == EntityState.Modified));
 
             foreach (var entity in entities)
             {
@@ -58,9 +63,10 @@ namespace AthleticAlliance.Infrastructure.Persistence
 
                 if (entity.State == EntityState.Added)
                 {
-                    ((BaseEntity)entity.Entity).Created = now;
+                    ((BaseEntity) entity.Entity).Created = now;
                 }
-                ((BaseEntity)entity.Entity).LastModified = now;
+
+                ((BaseEntity) entity.Entity).LastModified = now;
             }
         }
     }

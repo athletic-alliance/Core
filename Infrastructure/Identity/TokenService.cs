@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AthleticAlliance.Domain.Entities.User;
 
 namespace AthleticAlliance.Infrastructure.Identity
 {
@@ -16,13 +17,15 @@ namespace AthleticAlliance.Infrastructure.Identity
             _configuration = configuration;
         }
 
-        public string BuildToken(string userName, string userRole, string userId)
+        public string BuildToken(ApplicationUser user, IList<string> roles)
         {
-            var claims = new[] {
-                new Claim(ClaimTypes.Name, userName),
-                new Claim(ClaimTypes.Role, userRole),
-                new Claim("userid", userId),
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, user.UserName),
+                new("userid", user.Id)
             };
+
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var jwtSettings = _configuration.GetSection("JWTSettings");
             var signingKey = jwtSettings.GetSection("securityKey").Value;

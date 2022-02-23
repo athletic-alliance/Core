@@ -8,5 +8,6 @@ namespace AthleticAlliance.Application.Common.Interfaces
         Task<bool> CreateUser(string username, string password, string email, string firstName, string lastName);
         Task<bool> PasswordValid(ApplicationUser user, string? password);
         Task<ApplicationUser> FindByEmail(string? email);
+        Task<IList<string>> GetRolesAsync(ApplicationUser user);
     }
 }

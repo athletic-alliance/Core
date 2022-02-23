@@ -30,8 +30,10 @@ namespace AthleticAlliance.Application.Auth.Commands.Authenticate
             {
                 throw new UnauthorizedAccessException();
             }
+
+            var roles = await _identityService.GetRolesAsync(user);
             
-            var token = _tokenService.BuildToken(user.UserName, "Admin", user.Id);
+            var token = _tokenService.BuildToken(user, roles);
 
             return new AuthResponseDto(token, token); 
         }

@@ -40,5 +40,10 @@ namespace AthleticAlliance.Infrastructure.Identity
         {
             return _userManager.FindByNameAsync(username);
         }
+
+        public Task<IList<string>> GetRolesAsync(ApplicationUser user)
+        {
+            return _userManager.GetRolesAsync(user);
+        }
     }
 }
