@@ -2,6 +2,6 @@
 {
     public interface ITokenService
     {
-        public string BuildToken(string userName, string roles);
+        public string BuildToken(string userName, string roles, string userId);
     }
 }

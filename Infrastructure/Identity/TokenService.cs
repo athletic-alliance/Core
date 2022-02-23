@@ -16,11 +16,12 @@ namespace AthleticAlliance.Infrastructure.Identity
             _configuration = configuration;
         }
 
-        public string BuildToken(string userName, string userRole)
+        public string BuildToken(string userName, string userRole, string userId)
         {
             var claims = new[] {
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(ClaimTypes.Role, userRole),
+                new Claim("userid", userId),
             };
 
             var jwtSettings = _configuration.GetSection("JWTSettings");

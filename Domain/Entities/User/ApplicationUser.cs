@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AthleticAlliance.Domain.Entities.Training;
+using Microsoft.AspNetCore.Identity;
 
 namespace AthleticAlliance.Domain.Entities.User
 {
@@ -10,5 +11,6 @@ namespace AthleticAlliance.Domain.Entities.User
         public DateTime RefreshTokenExpiryTime { get; set; }
 
         public UserProfile Profile { get; set; }
+        public Plan Plan { get; set; }
     }
 }

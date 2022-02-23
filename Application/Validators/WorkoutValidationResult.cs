@@ -1,4 +1,4 @@
-﻿namespace AthleticAlliance.Domain.Entities.Training
+﻿namespace AthleticAlliance.Application.Validators
 {
     public class WorkoutValidationResult
     {

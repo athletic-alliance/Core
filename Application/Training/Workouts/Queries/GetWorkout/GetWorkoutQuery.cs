@@ -15,6 +15,7 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
+        
         public GetWorkoutQueryCommandHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
@@ -28,7 +29,7 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
                 .Where(w => w.Id == request.Id)
                 .AsNoTracking()
                 .ProjectTo<WorkoutDto>(_mapper.ConfigurationProvider)
-                .FirstAsync();
+                .FirstAsync(cancellationToken: cancellationToken);
         }
     }
 }

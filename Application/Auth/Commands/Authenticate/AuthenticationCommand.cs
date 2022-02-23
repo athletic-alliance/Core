@@ -31,7 +31,7 @@ namespace AthleticAlliance.Application.Auth.Commands.Authenticate
                 throw new UnauthorizedAccessException();
             }
             
-            var token = _tokenService.BuildToken(user.UserName, "Admin");
+            var token = _tokenService.BuildToken(user.UserName, "Admin", user.Id);
 
             return new AuthResponseDto(token, token); 
         }
