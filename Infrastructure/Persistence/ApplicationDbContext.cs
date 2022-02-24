@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AthleticAlliance.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>,
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>,
         IApplicationDbContext
     {
         public DbSet<Plan> Plans => Set<Plan>();

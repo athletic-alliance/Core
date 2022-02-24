@@ -10,9 +10,9 @@ namespace Api.Controllers
     public class WorkoutController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<WorkoutDto>>> Get()
+        public async Task<ActionResult<List<WorkoutDto>>> Get(bool includeDetails = false)
         {
-            return await Mediator.Send(new GetWorkoutsQuery());
+            return await Mediator.Send(new GetWorkoutsQuery() {IncludeDetails = includeDetails});
         }
 
         [HttpGet("{id}")]
