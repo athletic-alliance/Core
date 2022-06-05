@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Interfaces;
+using AthleticAlliance.Domain.Entities.Training;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -15,7 +16,7 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        
+
         public GetWorkoutQueryCommandHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
@@ -24,12 +25,15 @@ namespace AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout
 
         public async Task<WorkoutDto> Handle(GetWorkoutQuery request, CancellationToken cancellationToken)
         {
-            return await _context
+            Workout workout = await _context
                 .Workouts
                 .Where(w => w.Id == request.Id)
+                .Include(w => w.Exercises).ThenInclude(w => w.Exercise)
+                .Include(w => w.Exercises).ThenInclude(w => w.Details)
                 .AsNoTracking()
-                .ProjectTo<WorkoutDto>(_mapper.ConfigurationProvider)
                 .FirstAsync(cancellationToken: cancellationToken);
+
+            return _mapper.Map<WorkoutDto>(workout);
         }
     }
 }

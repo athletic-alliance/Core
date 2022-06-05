@@ -1,4 +1,5 @@
 ﻿using AthleticAlliance.Application.Common.Mappings;
+using AthleticAlliance.Application.Common.Mappings.Actions;
 using AthleticAlliance.Domain.Entities.Training;
 using AthleticAlliance.Domain.Enums;
 using AutoMapper;
@@ -13,12 +14,12 @@ public class WorkoutDto : IMapFrom<Workout>
     public WorkoutType Type { get; set; }
 
     public int TimeLimit { get; set; }
-    public string? Description { get; set; } 
+    public string? Description { get; set; }
 
-    public ICollection<GetWorkoutExerciseDto>? Exercises {get;set; }
+    public ICollection<WorkoutRoundDto>? Rounds { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Workout, WorkoutDto>();
+        profile.CreateMap<Workout, WorkoutDto>().BeforeMap<ExerciseListToRoundsMappingAction>();
     }
 }

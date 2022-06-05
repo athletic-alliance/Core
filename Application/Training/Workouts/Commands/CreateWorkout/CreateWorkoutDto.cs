@@ -7,7 +7,7 @@
 
     public class WorkoutRoundDto
     {
-        List<WorkoutRoundExerciseDto> Exercises { get; set; }   
+        List<Queries.GetWorkout.WorkoutRoundExerciseDto> Exercises { get; set; }   
     }
 
     public class WorkoutRoundExerciseDto

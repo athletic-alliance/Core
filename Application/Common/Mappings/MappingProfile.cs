@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout;
+using AthleticAlliance.Domain.Entities.Training;
 
 namespace AthleticAlliance.Application.Common.Mappings
 {

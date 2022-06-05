@@ -1,4 +1,5 @@
-﻿using AthleticAlliance.Domain.Entities.User;
+﻿using System.Security.Claims;
+using AthleticAlliance.Domain.Entities.User;
 
 namespace AthleticAlliance.Application.Common.Interfaces
 {
@@ -11,5 +12,6 @@ namespace AthleticAlliance.Application.Common.Interfaces
         Task<ApplicationUser> FindByEmail(string? email);
         Task<IList<string>> GetRolesAsync(ApplicationUser user);
         Task<IList<ApplicationUser>> GetUserInRoleAsync(String roleName);
+        bool IsSignedIn(ClaimsPrincipal user);
     }
 }

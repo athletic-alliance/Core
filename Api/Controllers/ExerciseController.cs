@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    // [Authorize(Roles = "Admin, Coach")]
     [ApiController]
     [Route("[controller]")]
     public class ExerciseController : ApiControllerBase

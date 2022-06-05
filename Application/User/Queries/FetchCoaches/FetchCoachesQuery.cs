@@ -3,7 +3,6 @@ using AthleticAlliance.Application.Training.Workouts.Queries.GetWorkout;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AthleticAlliance.Application.User.Queries.FetchCoaches;
 

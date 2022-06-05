@@ -1,0 +1,39 @@
+﻿@page "/Exercise/Create"
+
+@using WebApp.Models.dto
+@using WebApp.Models.Enum
+@using WebApp.Interfaces
+@attribute [Authorize]
+
+@inject IExerciseService ExerciseService
+@inject NavigationManager NavigationManager
+
+<h3>Create</h3>
+
+<MudForm @ref="form" @bind-Errors="@errors">
+    <MudTextField @bind-Value="_exerciseDto.Name" T="string" Label="Name" Required="true" RequiredError="Name wird benötigt!" FullWidth="true"/>
+    <MudSelect T="ExerciseType" MultiSelection="false" SelectAll="true" SelectAllText="Select all felines" @bind-Value="_exerciseDto.Type" Label="Typ" AdornmentIcon="@Icons.Material.Filled.Search">
+        <MudSelectItem T="ExerciseType" Value="@ExerciseType.Bodyweight">Bodyweigth</MudSelectItem>
+        <MudSelectItem T="ExerciseType" Value="@ExerciseType.Strength">Strength</MudSelectItem>
+        <MudSelectItem T="ExerciseType" Value="@ExerciseType.Cardio">Cardio</MudSelectItem>
+    </MudSelect>
+
+    <div class="d-flex align-center justify-space-between mt-6">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleSave" Class="ml-auto">Login</MudButton>
+    </div>
+</MudForm>
+
+@code {
+    private ExerciseDto _exerciseDto = new ExerciseDto();
+    
+    string[] errors = {};
+
+    MudTextField<string> name;
+    MudTextField<ExerciseType> type;
+    MudForm form;
+
+    private void HandleSave()
+    {
+        ExerciseService.Create(_exerciseDto);
+    }
+}

@@ -1,0 +1,69 @@
+﻿@page "/login"
+
+@using System.ComponentModel.DataAnnotations
+@using WebApp.Interfaces
+@inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
+
+<div class="loginWrapper">
+    <MudPaper MinWidth="500px">
+            <MudPaper Width="100%" Elevation="0">
+                <MudForm @ref="form" @bind-Errors="@errors">
+                    <MudTextField @bind-Value="model.Username" T="string" Label="Email" Required="true" RequiredError="Email is required!" FullWidth="true"
+                                  Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})"/>
+                    <MudTextField @bind-Value="model.Password" T="string" Label="Password" @ref="pwField1" FullWidth="true"
+                                  InputType="InputType.Password" Required="true" RequiredError="Password is required!"/>
+
+                    <div class="d-flex align-center justify-space-between mt-6">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleValidSubmit" Class="ml-auto">Login</MudButton>
+                    </div>
+                </MudForm>
+            </MudPaper>
+    </MudPaper>
+</div>
+
+@code {
+    private Model model = new Model();
+    private bool loading;
+    private string error;
+
+    string[] errors = {};
+    MudTextField<string> pwField1;
+    MudForm form;
+
+    protected override void OnInitialized()
+    {
+    // redirect to home if already logged in
+        if (AuthenticationService.User != null)
+        {
+            NavigationManager.NavigateTo("dashboard");
+        }
+    }
+
+    private async void HandleValidSubmit()
+    {
+        loading = true;
+        try
+        {
+            await AuthenticationService.Login(model.Username, model.Password);
+            var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
+            NavigationManager.NavigateTo(returnUrl);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private class Model
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+
+}

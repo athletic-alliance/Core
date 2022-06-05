@@ -1,0 +1,92 @@
+﻿@page "/Exercises"
+@using WebApp.Interfaces
+@using WebApp.Models.dto
+@using WebApp.Models.Enum
+@attribute [Authorize]
+
+@inject IExerciseService ExerciseService
+@inject NavigationManager NavigationManager
+
+<div class="w-full">
+    <MudPaper Elevation="25">
+        <MudToolBar>
+            <MudIconButton Icon="@Icons.Material.Outlined.Create" Color="Color.Inherit" Class="mr-5" OnClick="navigate"/>
+        </MudToolBar>
+    </MudPaper>
+
+    @if (loading)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+    }
+    @if (exercises != null)
+    {
+        {
+            <MudDataGrid T="ExerciseDto" Items="@exercises">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Alle Übungen</MudText>
+                    <MudSpacer/>
+                    <MudTextField @bind-Value="_searchString" Placeholder="Suche..." Adornment="Adornment.Start" Immediate="true"
+                                  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0">
+                    </MudTextField>
+                </ToolBarContent>
+                <Columns>
+                    <SelectColumn T="ExerciseDto"/>
+                    <Column T="ExerciseDto" Field="Id" Title="Id" Filterable="true" Sortable="true"/>
+                    <Column T="ExerciseDto" Field="Name" Title="Name" Filterable="true" Sortable="true"/>
+                    <Column T="ExerciseDto" Field="Type" Title="Typ" Filterable="true" Sortable="true"/>
+                </Columns>
+                <PagerContent>
+                    <MudDataGridPager T="ExerciseDto"/>
+                </PagerContent>
+            </MudDataGrid>
+        }
+    }
+</div>
+
+@code {
+    private bool loading;
+    private string _searchString;
+    private bool _sortNameByLength;
+    private IEnumerable<ExerciseDto> exercises;
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+        exercises = await ExerciseService.GetAll();
+        loading = false;
+    }
+
+    private Func<ExerciseDto, object> _sortBy => x =>
+    {
+        if (_sortNameByLength)
+            return x.Name.Length;
+        else
+            return x.Name;
+    };
+
+    private Func<ExerciseDto, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+        {
+            return true;
+        }
+
+        if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        if ($"{x.Type}".Contains(_searchString))
+        {
+            return true;
+        }
+
+        return false;
+    };
+
+    void navigate()
+    {
+        NavigationManager.NavigateTo("/Exercise/Create", true);
+    }
+
+}

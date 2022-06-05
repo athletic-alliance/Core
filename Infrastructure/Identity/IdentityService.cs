@@ -1,4 +1,5 @@
-﻿using AthleticAlliance.Application.Common.Interfaces;
+﻿using System.Security.Claims;
+using AthleticAlliance.Application.Common.Interfaces;
 using AthleticAlliance.Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +9,20 @@ namespace AthleticAlliance.Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
+        }
+
+        public bool IsSignedIn(ClaimsPrincipal user)
+        {
+            return _signInManager.IsSignedIn(user);
         }
 
         public Task<List<ApplicationUser>> FindAll()
@@ -21,7 +30,8 @@ namespace AthleticAlliance.Infrastructure.Identity
             return _userManager.Users.ToListAsync();
         }
 
-        public async Task<bool> CreateUser(string username, string password, string email, string firstName, string lastName)
+        public async Task<bool> CreateUser(string username, string password, string email, string firstName,
+            string lastName)
         {
             bool y = await _roleManager.RoleExistsAsync("Coach");
 
@@ -31,7 +41,7 @@ namespace AthleticAlliance.Infrastructure.Identity
                 role.Name = "Coach";
                 await _roleManager.CreateAsync(role);
             }
-            
+
             var user = new ApplicationUser
             {
                 UserName = username,
@@ -46,7 +56,7 @@ namespace AthleticAlliance.Infrastructure.Identity
             {
                 var result1 = await _userManager.AddToRoleAsync(user, "Coach");
             }
-            
+
             return identityResult.Succeeded;
         }
 
