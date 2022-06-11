@@ -3,6 +3,7 @@ using System;
 using AthleticAlliance.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220605160945_initial1")]
+    partial class initial1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,7 +154,12 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Property<int>("TotalTime")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("WorkoutId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WorkoutId");
 
                     b.ToTable("FinishedWorkoutDetails");
                 });
@@ -672,6 +679,13 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Navigation("Workout");
                 });
 
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.FinishedWorkoutDetails", b =>
+                {
+                    b.HasOne("AthleticAlliance.Domain.Entities.Training.Workout", null)
+                        .WithMany("PassedWorkouts")
+                        .HasForeignKey("WorkoutId");
+                });
+
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Plan", b =>
                 {
                     b.HasOne("AthleticAlliance.Domain.Entities.User.ApplicationUser", "User")
@@ -807,6 +821,8 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Workout", b =>
                 {
                     b.Navigation("Exercises");
+
+                    b.Navigation("PassedWorkouts");
                 });
 
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.User.ApplicationUser", b =>

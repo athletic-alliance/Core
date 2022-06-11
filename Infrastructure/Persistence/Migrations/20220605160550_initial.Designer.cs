@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220224203019_Initial")]
-    partial class Initial
+    [Migration("20220605160550_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,50 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.ToTable("AdditionalTraining");
                 });
 
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.DoneWorkoutToUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("DetailId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DetailsId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("WorkoutId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DetailsId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WorkoutId");
+
+                    b.ToTable("DoneWorkoutToUsers");
+                });
+
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Exercise", b =>
                 {
                     b.Property<int>("Id")
@@ -84,7 +128,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.ToTable("Exercises");
                 });
 
-            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.PassedWorkout", b =>
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.FinishedWorkoutDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,14 +157,14 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.Property<int>("TotalTime")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WorkoutId")
+                    b.Property<int?>("WorkoutId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("PassedWorkout");
+                    b.ToTable("FinishedWorkoutDetails");
                 });
 
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Plan", b =>
@@ -611,15 +655,38 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.PassedWorkout", b =>
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.DoneWorkoutToUser", b =>
                 {
+                    b.HasOne("AthleticAlliance.Domain.Entities.Training.FinishedWorkoutDetails", "Details")
+                        .WithMany()
+                        .HasForeignKey("DetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AthleticAlliance.Domain.Entities.User.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AthleticAlliance.Domain.Entities.Training.Workout", "Workout")
-                        .WithMany("PassedWorkouts")
+                        .WithMany()
                         .HasForeignKey("WorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Details");
+
+                    b.Navigation("User");
+
                     b.Navigation("Workout");
+                });
+
+            modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.FinishedWorkoutDetails", b =>
+                {
+                    b.HasOne("AthleticAlliance.Domain.Entities.Training.Workout", null)
+                        .WithMany("PassedWorkouts")
+                        .HasForeignKey("WorkoutId");
                 });
 
             modelBuilder.Entity("AthleticAlliance.Domain.Entities.Training.Plan", b =>

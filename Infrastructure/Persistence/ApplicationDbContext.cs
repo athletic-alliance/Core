@@ -16,6 +16,7 @@ namespace AthleticAlliance.Infrastructure.Persistence
         public DbSet<PlanTrainingDay> PlanTrainingDays => Set<PlanTrainingDay>();
         public DbSet<Exercise> Exercises => Set<Exercise>();
         public DbSet<Workout> Workouts => Set<Workout>();
+        public DbSet<DoneWorkoutToUser> DoneWorkoutToUsers => Set<DoneWorkoutToUser>();
         public DbSet<WorkoutExercise> WorkoutExercises => Set<WorkoutExercise>();
         public DbSet<WorkoutExerciseDetails> WorkoutExerciseDetails => Set<WorkoutExerciseDetails>();
 
@@ -32,11 +33,14 @@ namespace AthleticAlliance.Infrastructure.Persistence
             builder.Entity<Plan>().HasMany(w => w.TrainingDays);
             builder.Entity<PlanTrainingDay>().HasOne(pw => pw.Workout);
             builder.Entity<Workout>().HasMany(w => w.Exercises).WithOne(e => e.Workout);
-            builder.Entity<Workout>().HasMany(w => w.PassedWorkouts).WithOne(pw => pw.Workout);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Details);
             builder.Entity<WorkoutExercise>().HasOne(w => w.Exercise);
             builder.Entity<ApplicationUser>().HasOne(a => a.Profile).WithOne(b => b.User)
                 .HasForeignKey<UserProfile>(c => c.UserId);
+
+            builder.Entity<DoneWorkoutToUser>().HasOne(w => w.User);
+            builder.Entity<DoneWorkoutToUser>().HasOne(w => w.Workout);
+            builder.Entity<DoneWorkoutToUser>().HasOne(w => w.Details);
         }
 
         public override int SaveChanges()

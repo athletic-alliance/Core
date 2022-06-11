@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -302,15 +302,15 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PassedWorkout",
+                name: "FinishedWorkoutDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutId = table.Column<int>(type: "integer", nullable: false),
                     TotalRounds = table.Column<int>(type: "integer", nullable: false),
                     TotalTime = table.Column<int>(type: "integer", nullable: false),
                     TotalReps = table.Column<int>(type: "integer", nullable: false),
+                    WorkoutId = table.Column<int>(type: "integer", nullable: true),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -318,13 +318,12 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PassedWorkout", x => x.Id);
+                    table.PrimaryKey("PK_FinishedWorkoutDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PassedWorkout_Workouts_WorkoutId",
+                        name: "FK_FinishedWorkoutDetails_Workouts_WorkoutId",
                         column: x => x.WorkoutId,
                         principalTable: "Workouts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -410,6 +409,44 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "DoneWorkoutToUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WorkoutId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    DetailsId = table.Column<int>(type: "integer", nullable: false),
+                    DetailId = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoneWorkoutToUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoneWorkoutToUsers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DoneWorkoutToUsers_FinishedWorkoutDetails_DetailsId",
+                        column: x => x.DetailsId,
+                        principalTable: "FinishedWorkoutDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DoneWorkoutToUsers_Workouts_WorkoutId",
+                        column: x => x.WorkoutId,
+                        principalTable: "Workouts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -448,8 +485,23 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PassedWorkout_WorkoutId",
-                table: "PassedWorkout",
+                name: "IX_DoneWorkoutToUsers_DetailsId",
+                table: "DoneWorkoutToUsers",
+                column: "DetailsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoneWorkoutToUsers_UserId",
+                table: "DoneWorkoutToUsers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoneWorkoutToUsers_WorkoutId",
+                table: "DoneWorkoutToUsers",
+                column: "WorkoutId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinishedWorkoutDetails_WorkoutId",
+                table: "FinishedWorkoutDetails",
                 column: "WorkoutId");
 
             migrationBuilder.CreateIndex(
@@ -518,7 +570,7 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "PassedWorkout");
+                name: "DoneWorkoutToUsers");
 
             migrationBuilder.DropTable(
                 name: "PlanTrainingDays");
@@ -531,6 +583,9 @@ namespace AthleticAlliance.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "FinishedWorkoutDetails");
 
             migrationBuilder.DropTable(
                 name: "AdditionalTraining");
